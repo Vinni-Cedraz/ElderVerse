@@ -119,7 +119,3 @@ def main():
 
         response = chatbot.get_bot_response(user_input)
         print(f"Elder Chatbot: {response}")
-
-
-if __name__ == "__main__":
-    main()
