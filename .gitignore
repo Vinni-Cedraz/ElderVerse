@@ -1,1 +1,57 @@
-myenv/
+# compiled output
+/dist
+**/node_modules
+0
+
+# Keys
+/cert
+
+# Data
+/data
+
+# Logs
+logs
+*.log
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode
+.vscode/launch.json
+.vscode/settings.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Env files
+*.env
+
+# Ignore build output
+build
+
+# Ignore key files
+**/*.pem
+**/*.crt
+**/*.key
+
+# Ignore temp storage directories
+apps/storage/files
+
+# Ignore Sonar files
+.scannerwork
+sonar-scanner
