@@ -3,6 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from config.settings import Settings
 
+
+"""
+define logger,
+metrics
+shutdownHooks
+"""
+
 app = FastAPI(
     title="MS-Users",
     version="1.0.0",
@@ -17,7 +24,7 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-# Setup NATS Transport
+# Setup NATS Transport onto app
 
 # Health check endpoint
 @app.get("/health", tags=["Health"])
