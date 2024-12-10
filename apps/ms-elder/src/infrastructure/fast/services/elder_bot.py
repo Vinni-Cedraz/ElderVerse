@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*- from groq import Groq import os
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from datetime import datetime
-from collections import deque
-from groq import Groq
+# -*- coding: utf-8 -*-
+# from groq import Groq import os
 import os
 import requests
 from pathlib import Path
+from datetime import datetime
+from collections import deque
+from abc import ABC, abstractmethod
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from groq import Groq
 
 
 def query_groq(messages, model):
@@ -19,8 +21,29 @@ def query_groq(messages, model):
     )
     return chat_completion.choices[0].message.content
 
+class IElderBot():
+    @abstractmethod
+    def add_message(self, role: str, content: str):
+        pass
 
-class ElderBot:
+    @abstractmethod
+    def transcribe_audio(self, audio_file_path: str) -> str:
+        pass
+
+    @abstractmethod
+    def get_bot_response(self, user_input: str, is_audio_file: bool = False) -> str:
+        pass
+
+    @abstractmethod
+    def generate_story(self):
+        pass
+
+    @abstractmethod
+    def save_as_pdf(self, blog_content: str) -> str:
+        pass
+
+
+class ElderBot(IElderBot):
     def __init__(self):
         self.max_messages = 15
         self.messages = deque(maxlen=self.max_messages)
