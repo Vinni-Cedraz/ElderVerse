@@ -21,7 +21,7 @@ def query_groq(messages, model):
     )
     return chat_completion.choices[0].message.content
 
-class IElderBot():
+class IElderBot(ABC):
     @abstractmethod
     def add_message(self, role: str, content: str):
         pass
@@ -43,7 +43,7 @@ class IElderBot():
         pass
 
 
-class ElderBot(IElderBot):
+class ElderBotService(IElderBot):
     def __init__(self):
         self.max_messages = 15
         self.messages = deque(maxlen=self.max_messages)
@@ -164,7 +164,7 @@ class ElderBot(IElderBot):
 @TODO: refactor this main into discrete functions - that throw 
 """
 def main():
-    chatbot = ElderBot()
+    chatbot = ElderBotService()
     initial_message = "Hello! I'd love to chat with you. You can type your message or provide the path to an audio file."
     print(f"Elder Chatbot: {initial_message}")
     chatbot.add_message("assistant", initial_message)
