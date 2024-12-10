@@ -137,37 +137,38 @@ class ElderChatbot:
         doc.build(story)
         return filename
 
+    def run(self):
+        initial_message = "Hello! I'm here to listen and make you company. What is your name?\n"
+        print(f"Elder Chatbot: {initial_message}")
+        self.add_message("assistant", initial_message)
+
+        while True:
+            try:
+                user_input = input()
+            except EOFError:
+                print("\nEOF detected. Exiting...")
+                break
+
+            if user_input.lower() == "quit":
+                print("\nGenerating your story...")
+                self.generate_story()
+                print("\nYour story has been saved as a PDF!")
+                break
+
+            is_audio = False
+            if (
+                os.path.exists(user_input)
+                and Path(user_input).suffix.lower() in self.audio_file_types
+            ):
+                is_audio = True
+
+            response = self.get_bot_response(user_input, is_audio)
+            print(f"Elder Chatbot: {response}")
+
 
 def main():
     chatbot = ElderChatbot()
-    initial_message = "Hello! I'd love to chat with you. You can type your message or provide the path to an audio file."
-    print(f"Elder Chatbot: {initial_message}")
-    chatbot.add_message("assistant", initial_message)
-
-    while True:
-        try:
-            user_input = input(
-                "Hi, I'm here to listen and make you company. What is your name?"
-            )
-        except EOFError:
-            print("\nEOF detected. Exiting...")
-            break
-
-        if user_input.lower() == "quit":
-            print("\nGenerating your story...")
-            chatbot.generate_story()
-            print("\nYour story has been saved as a PDF!")
-            break
-
-        is_audio = False
-        if (
-            os.path.exists(user_input)
-            and Path(user_input).suffix.lower() in chatbot.audio_file_types
-        ):
-            is_audio = True
-
-        response = chatbot.get_bot_response(user_input, is_audio)
-        print(f"Elder Chatbot: {response}")
+    chatbot.run()
 
 
 if __name__ == "__main__":
