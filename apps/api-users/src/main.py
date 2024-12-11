@@ -18,6 +18,21 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
+"""
+Setup onto app the GlobalInterceptors(
+    RequestIdInterceptor
+    InstrumentationInterceptor
+    Logger
+    NatsServiceInterceptor
+)
+
+GlobalFilters (
+    ValidationPipe (whitelist, forbidNonWhiteListed)
+)
+
+app.use Helmet, metricMiddleware
+"""
+
 # Include routes
 app.include_router(user_routes.router)
 
