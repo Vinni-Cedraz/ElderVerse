@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # from groq import Groq import os
 import os
@@ -7,10 +6,11 @@ from pathlib import Path
 from collections import deque
 from query_groq import query_groq
 from ielder_bot import IElderBot
+from story_bot import StoryBot
 
 
 class ElderBot(IElderBot):
-    def __init__(self):
+    def __init__(self, usecase):
         self.max_messages = 15
         self.messages = deque(maxlen=self.max_messages)
         self.messages.append(
@@ -22,6 +22,7 @@ class ElderBot(IElderBot):
         )
         self.user_name = None
         self.user_image = None
+        self.usecase = usecase
 
     def add_message(self, role, content):
         self.messages.append({"role": role, "content": content})
@@ -88,7 +89,8 @@ class ElderBot(IElderBot):
 
             if user_input.lower() == "quit":
                 print("\nGenerating your story...")
-                self.generate_story()
+                story_bot = StoryBot(self)
+                story_bot.generate_story()
                 print("\nYour story has been saved as a PDF!")
                 break
 
@@ -101,12 +103,3 @@ class ElderBot(IElderBot):
 
             response = self.get_bot_response(user_input, is_audio)
             print(f"Elder Chatbot: {response}")
-
-
-def main():
-    chatbot = ElderBot()
-    chatbot.run()
-
-
-if __name__ == "__main__":
-    main()
