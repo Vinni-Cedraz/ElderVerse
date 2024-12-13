@@ -1,0 +1,22 @@
+services:
+  ms-elder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms-elder
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - .:/app
+    command: python apps/ms-elder/src/main.py
+    ports:
+      - "8000:8000"
+    depends_on:
+      - nats
+
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
