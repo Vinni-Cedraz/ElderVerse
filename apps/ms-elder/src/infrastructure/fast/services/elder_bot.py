@@ -34,28 +34,33 @@ class IElderBot(ABC):
     def get_bot_response(self, user_input: str, is_audio_file: bool = False) -> str:
         pass
 
+    """
+    id: uuid of story
+    """
     @abstractmethod
-    def generate_story(self):
+    def generate_story(self, id=uuidV4()):
         pass
 
     @abstractmethod
     def save_as_pdf(self, blog_content: str) -> str:
         pass
 
-
+"""
+{
+    "role": "system",
+    "content": "You are a friendly and patient chatbot speaking with an elderly person.
+    Show genuine interest in their stories and experiences.",
+}
+"""
 class ElderBotService(IElderBot):
-    def __init__(self):
+    def __init__(self, role, graph):
         self.max_messages = 15
         self.messages = deque(maxlen=self.max_messages)
-        self.messages.append(
-            {
-                "role": "system",
-                "content": """You are a friendly and patient chatbot speaking with an elderly person.
-                Show genuine interest in their stories and experiences.""",
-            }
-        )
+        self.messages.append(role)
         self.user_name = None
+        self.prompts = graph
         self.user_image = None
+        print('test')
 
     def add_message(self, role, content):
         self.messages.append({"role": role, "content": content})
@@ -106,19 +111,9 @@ class ElderBotService(IElderBot):
         return response
 
     def generate_story(self):
-        story_prompt = {
-            "role": "system",
-            "content": """Create a blog post from the following conversation. 
-            The blog post should:
-            1. Have an engaging title
-            2. Be structured in clear sections
-            3. Focus on the most interesting life stories and insights shared
-            4. Include direct quotes when relevant
-            5. Have a thoughtful conclusion
-            6. Be between 500-1000 words
-            7. Don't use markdown, because the final format will be a pdf.
-            Format the response with the title on top, followed by the content in paragraphs.""",
-        }
+        story_prompt = self.prompt
+
+        
 
         # Create a temporary message list for story generation
         story_messages = [
