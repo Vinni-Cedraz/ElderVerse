@@ -39,6 +39,7 @@ logs
 !.vscode/extensions.json
 
 # Env files
+/env
 *.env
 
 # Ignore build output

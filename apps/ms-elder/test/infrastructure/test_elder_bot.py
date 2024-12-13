@@ -1,6 +1,6 @@
 import asyncio
 from libs.common.nats_module import NatsModule
-
+# @TODO - if test is validated (need nats docker container running), move test to ms-elder/test 
 async def graph_callback(subject, graph):
     print(f"Received message on '{subject}': {graph}")
 
@@ -21,7 +21,7 @@ async def main():
     }
 
     # Publish and subscribe
-    await nats_module.subscribe("elderverse.graphs", graph_callback)
+    await nats_module.subscribe("elderverse.graphs", graph_callback) # @TODO get subjects from ms-elder/infrastructure/nats/nats_constants.py
     await nats_module.publish_graph("elderverse.graphs", graph)
 
     # Example request-response
