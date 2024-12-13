@@ -2,8 +2,14 @@
 
 enum UserState {
     PENDING = 'PENDING'
-    ACTIVE
-    EXPIRED
+    ACTIVE = 'ACTIVE'
+    INACTIVE = 'INACTIVE'
+}
+
+enum InteractionState {
+    INTRODUCTION = 'INTRODUCTION'
+    COMPANIONSHIP = 'COMPANIONSHIP'
+    LYRICS = 'LYRICS'
 }
 
 interface User extends Domain<number> {
@@ -12,6 +18,8 @@ interface User extends Domain<number> {
     pin: string
     phoneNumber: number
     state: UserState
+    iState: InteractionState
+    intro: string[]
     name: string
     createdAt? Date
     updatedAt? Date
@@ -28,6 +36,8 @@ class UserEntity implements User {
     pin: string
     phoneNumber: number
     state: UserState
+    iState: InteractionState
+    intro: string[]
     name: string
     createdAt? Date
     updatedAt? Date
@@ -36,7 +46,7 @@ class UserEntity implements User {
     referredBy: string
     birthDate? Date
 
-    __init__(props: Partial<User>) {
+    def __init__(props: Partial<User>) {
         Object.assign(self, props)
     }
 }
