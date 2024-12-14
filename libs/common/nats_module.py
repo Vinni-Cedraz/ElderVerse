@@ -1,7 +1,9 @@
 """
-
-
+Need: NatsTransport to be added to each microservice's entrypoint main.py
+      in order to connect it to Nats Container and map respective infrastructure
+      observers to subscripe to nats_contants.py, and emit events/send message requests.
 """
+
 import json
 import asyncio
 from nats.aio.client import Client as NATS
@@ -26,6 +28,11 @@ class NatsModule:
         if self.nc.is_connected:
             await self.nc.close()
             print("NATS connection closed.")
+
+    async def publish(self, subject, payload):
+        
+
+        return
 
     async def publish_graph(self, subject, graph):
         """
