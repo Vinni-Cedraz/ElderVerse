@@ -13,7 +13,7 @@ class RegistrationRequest(BaseModel):
 async def register_user(request: RegistrationRequest):
     payload = request.dict()
     try:
-        response = await NatsService.request("USERS.registration", payload)
+        response = await NatsService.request("USERS.registration", payload) #@TODO: no ms_users, so use DBService to write directly to DB from API, for now...
         return {"message": "User registered successfully", "data": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
